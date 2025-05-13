@@ -10,16 +10,20 @@ spring:
 
   jpa:
     database-platform: org.hibernate.dialect.PostgreSQLDialect
-    hibernate:
-      ddl-auto: create-drop
+    #hibernate:
+    #  ddl-auto: create-drop
     # show-sql: true # Descomentar para mostrar las consultas SQL generadas
     # properties:
     #   hibernate.format_sql: true # Descomentar para formatear las consultas SQL
+  
   security:
     user:
       name: admin
       password: admin123
 
+  liquibase:
+    enabled: true
+    change-log: classpath:db/changelog/db.changelog-master.yaml
 server:
   port: 8080
 
@@ -31,3 +35,7 @@ graphql:
   servlet:
     enabled: true
     mapping: /graphql
+
+jwt:
+  secret: ${JWT_SECRET}
+  expiration_ms: ${JWT_EXPIRATION_MS}

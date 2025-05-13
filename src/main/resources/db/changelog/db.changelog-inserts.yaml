@@ -1,0 +1,153 @@
+databaseChangeLog:
+  - changeSet:
+      id: 6
+      author: telconova
+      changes:
+        - insert:
+            tableName: role
+            columns:
+              - column:
+                  name: name
+                  value: ADMIN
+              - column:
+                  name: description
+                  value: Administrador del sistema
+        - insert:
+            tableName: role
+            columns:
+              - column:
+                  name: name
+                  value: TECNICO
+              - column:
+                  name: description
+                  value: Técnico de soporte
+        - insert:
+            tableName: role
+            columns:
+              - column:
+                  name: name
+                  value: CLIENTE
+              - column:
+                  name: description
+                  value: Usuario cliente
+
+        - insert:
+            tableName: permission
+            columns:
+              - column:
+                  name: name
+                  value: USUARIO_READ
+              - column:
+                  name: description
+                  value: Permite leer usuarios
+        - insert:
+            tableName: permission
+            columns:
+              - column:
+                  name: name
+                  value: USUARIO_WRITE
+              - column:
+                  name: description
+                  value: Permite crear/editar usuarios
+        - insert:
+            tableName: permission
+            columns:
+              - column:
+                  name: name
+                  value: USUARIO_DELETE
+              - column:
+                  name: description
+                  value: Permite eliminar usuarios
+
+  - changeSet:
+      id: 7
+      author: telconova
+      changes:
+        - insert:
+            tableName: user
+            columns:
+              - column:
+                  name: username
+                  value: admin
+              - column:
+                  name: email
+                  value: admin@telconova.com
+              - column:
+                  name: password
+                  value: $2b$12$.L/EOguFwoM.6yBJX/iX2eSSje9xPCmUfJ/LJeaUZQeytq6o0RauS
+              - column:
+                  name: name
+                  value: Administrador
+              - column:
+                  name: active
+                  valueBoolean: true
+
+        - insert:
+            tableName: user
+            columns:
+              - column:
+                  name: username
+                  value: tecnico
+              - column:
+                  name: email
+                  value: tecnico@telconova.com
+              - column:
+                  name: password
+                  value: $2b$12$SnH06Bwgsyq8xp4TISqHfejh/MHJpPgYUTXahVO7a12sEQeZvGpmW
+              - column:
+                  name: name
+                  value: Tecnico
+              - column:
+                  name: active
+                  valueBoolean: true
+
+        - insert:
+            tableName: user
+            columns:
+              - column:
+                  name: username
+                  value: cliente
+              - column:
+                  name: email
+                  value: cliente@telconova.com
+              - column:
+                  name: password
+                  value: $2b$12$6gZNaJ1Ual0xDdBKM.fyVuZbSr39NwULz/DdT/zp1t9I6mp3DZ8G2
+              - column:
+                  name: name
+                  value: Cliente
+              - column:
+                  name: active
+                  valueBoolean: true
+
+  - changeSet:
+      id: 8
+      author: telconova
+      changes:
+        - insert:
+            tableName: user_roles
+            columns:
+              - column:
+                  name: user_id
+                  valueNumeric: 1 # admin
+              - column:
+                  name: role_id
+                  valueNumeric: 1 # ADMIN
+        - insert:
+            tableName: user_roles
+            columns:
+              - column:
+                  name: user_id
+                  valueNumeric: 2 # tecnico
+              - column:
+                  name: role_id
+                  valueNumeric: 2 # TECNICO
+        - insert:
+            tableName: user_roles
+            columns:
+              - column:
+                  name: user_id
+                  valueNumeric: 3 # cliente
+              - column:
+                  name: role_id
+                  valueNumeric: 3 # CLIENTE

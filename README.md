@@ -370,8 +370,8 @@ La configuración apropiada se activa mediante variables de entorno.
   - Dashboard principal: `http://monitoring.telconova.local/d/auth-metrics`
   - Dashboard de seguridad: `http://monitoring.telconova.local/d/auth-security`
 - **Elasticsearch**: Almacenamiento centralizado de logs
-- **Kibana**: Visualización y análisis de logs
-- **Alertmanager**: Configuración de alertas basadas en métricas
+- **Kibana**: Visualización y análisis de logs (Opcional)
+- **Alertmanager**: Configuración de alertas basadas en métricas (Opcional)
 
 ### Exportadores
 - Spring Boot Actuator para métricas de aplicación
@@ -455,6 +455,21 @@ spec:
               number: 8080
 ```
 
+---
+### Ejecución local
+
+Una vez creado el archivo .env ejecutar el siguiente comando:
+
+```bash
+export $(cat .env | xargs)
+```
+
+Luego ejecute la instalacion de paquetes y corra el proyecto.
+
+```bash
+mvn clean install
+mvn spring-boot:run
+```
 ---
 
 ## 🧪 Pruebas
