@@ -9,6 +9,9 @@ import com.telconova.auth.security.JwtProvider;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Service
 public class AuthService {
 
@@ -23,39 +26,20 @@ public class AuthService {
     }
 
     public AuthResponse authenticate(AuthRequest request) {
-        // Buscar usuario por username
         User user = userRepository.findByUsername(request.getUsername())
-                .orElseThrow(() -> {
-                    System.out.println("Usuario no encontrado: " + request.getUsername());
-                    return new AuthException("Usuario o contraseña incorrectos");
-                });
+                .orElseThrow(() -> new AuthException("Usuario o contraseña incorrectos"));
 
-        // Comparar contraseñas
+        if (user.getActive() == null || !user.getActive()) {
+            throw new AuthException("Usuario deshabilitado");
+        }
+
         boolean matches = passwordEncoder.matches(request.getPassword(), user.getPassword());
-        System.out.println("Comparando contraseña: " + request.getPassword() + " con hash: " + user.getPassword());
-        System.out.println("¿Coincide? " + matches);
-
         if (!matches) {
-            System.out.println("Contraseña incorrecta para usuario: " + request.getUsername());
             throw new AuthException("Usuario o contraseña incorrectos");
         }
 
-        // Verifica que el usuario tenga el rol de TECNICO
-        boolean isTecnico = user.getRoles().stream()
-                .peek(role -> System.out.println("Rol encontrado: " + role.getName()))
-                .anyMatch(role -> "TECNICO".equalsIgnoreCase(role.getName()));
-
-        System.out.println("¿Es técnico? " + isTecnico);
-
-        if (!isTecnico) {
-            System.out.println("El usuario no tiene el rol TECNICO");
-            throw new AuthException("Usuario o contraseña incorrectos");
-        }
-
-        // Generar token JWT
         String token = jwtProvider.generateToken(user);
-        System.out.println("Token generado: " + token);
 
-        return new AuthResponse(token, user.getId(), user.getUsername(), "TECNICO");
+        return new AuthResponse(token, user.getId(), user.getUsername());
     }
 }
