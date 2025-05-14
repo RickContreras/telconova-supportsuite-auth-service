@@ -13,21 +13,37 @@
 	<version>0.0.1-SNAPSHOT</version>
 	<name>telconova-support-backend</name>
 	<description>Sistemas de Gestión de Soporte Técnico para TelcoNova Colombia</description>
-	<url/>
+	<url>https://github.com/RickContreras/telconova-supportsuite-auth-service</url>
+	<organization>
+		<name>TelcoNova Colombia</name>
+	</organization>
 	<licenses>
-		<license/>
+		<license>
+			<name>Apache License, Version 2.0</name>
+			<url>http://www.apache.org/licenses/LICENSE-2.0</url>
+			<distribution>repo</distribution>
+		</license>
 	</licenses>
 	<developers>
-		<developer/>
+		<developer>
+				<id>rickcontreras</id>
+				<name>Ricardo Contreras Garzón</name>
+		</developer>
 	</developers>
 	<scm>
-		<connection/>
-		<developerConnection/>
-		<tag/>
-		<url/>
+		<connection>scm:git:https://github.com/RickContreras/telconova-supportsuite-auth-service.git</connection>
+		<developerConnection>scm:git:ssh://git@github.com:RickContreras/telconova-supportsuite-auth-service.git</developerConnection>
+		<url>https://github.com/RickContreras/telconova-supportsuite-auth-service</url>
+		<tag>HEAD</tag>
 	</scm>
+	<issueManagement>
+		<system>GitHub Issues</system>
+		<url>https://github.com/RickContreras/telconova-supportsuite-auth-service/issues</url>
+	</issueManagement>
 	<properties>
 		<java.version>21</java.version>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 	</properties>
 	<dependencies>
 
@@ -42,6 +58,7 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-graphql</artifactId>
 		</dependency>
+
 		<!-- Seguridad Adicional -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -57,7 +74,6 @@
 			<version>1.70</version> <!-- Cifrado AES-256 -->
 		</dependency>
 	
-
 		<!-- PostgreSQL -->
 		<dependency>
 			<groupId>org.postgresql</groupId>
@@ -83,6 +99,7 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-security</artifactId>
 		</dependency>
+		
 		<!-- JWT -->
 		<dependency>
 			<groupId>io.jsonwebtoken</groupId>
@@ -109,7 +126,7 @@
 		<dependency>
 			<groupId>org.springdoc</groupId>
 			<artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
-			<version>2.5.0</version>
+			<version>2.8.6</version>
 		</dependency>
 
 		<!-- Carga de .env-->
@@ -143,7 +160,17 @@
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.13.0</version>
+				<configuration>
+					<source>21</source>
+					<target>21</target>
+					<encoding>UTF-8</encoding>
+				</configuration>
+			</plugin>
 		</plugins>
 	</build>
-
+	
 </project>
