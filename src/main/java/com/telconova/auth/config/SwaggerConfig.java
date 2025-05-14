@@ -8,72 +8,75 @@ import io.swagger.v3.oas.models.servers.Server;
 import io.swagger.v3.oas.models.security.SecurityRequirement;
 import io.swagger.v3.oas.models.security.SecurityScheme;
 import io.swagger.v3.oas.models.Components;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import java.util.List;
-import io.github.cdimascio.dotenv.Dotenv;
 
 /**
  * Configuración de Swagger/OpenAPI para la documentación de la API.
- * 
- * Esta clase utiliza variables de entorno para personalizar la configuración
- * de la documentación, como el título, la descripción, los servidores y la información
- * de contacto. Permite generar documentación interactiva para los consumidores de la API.
  */
 @Configuration
 public class SwaggerConfig {
 
-    private final Dotenv dotenv = Dotenv.load();
+    @Value("${swagger.api.title:API de Gestión de Usuarios}")
+    private String apiTitle;
 
-    /**
-     * Obtiene el valor de una variable de entorno o devuelve un valor predeterminado si no está definida.
-     *
-     * @param key          La clave de la variable de entorno.
-     * @param defaultValue El valor predeterminado a usar si la variable no está definida.
-     * @return El valor de la variable de entorno o el valor predeterminado.
-     */
-    private String getEnvOrDefault(String key, String defaultValue) {
-        String value = dotenv.get(key);
-        return value != null ? value : defaultValue;
-    }
+    @Value("${swagger.api.version:1.0}")
+    private String apiVersion;
 
-    /**
-     * Configura la instancia de OpenAPI para la documentación de la API.
-     *
-     * Este método utiliza variables de entorno para personalizar la información de la API,
-     * como el título, la versión, la descripción, los términos de servicio, la información
-     * de contacto y los servidores disponibles.
-     *
-     * @return Una instancia personalizada de {@link OpenAPI}.
-     */
+    @Value("${swagger.api.description:API para la gestión de usuarios y autenticacion}")
+    private String apiDescription;
+
+    @Value("${swagger.terms-url:https://example.com/terms}")
+    private String termsUrl;
+
+    @Value("${swagger.contact.name:Support Team}")
+    private String contactName;
+
+    @Value("${swagger.contact.email:support@example.com}")
+    private String contactEmail;
+
+    @Value("${swagger.contact.url:https://example.com/contact}")
+    private String contactUrl;
+
+    @Value("${swagger.license.name:Apache 2.0}")
+    private String licenseName;
+
+    @Value("${swagger.license.url:https://www.apache.org/licenses/LICENSE-2.0.html}")
+    private String licenseUrl;
+
+    @Value("${swagger.production-server-url:https://api.example.com}")
+    private String productionServerUrl;
+
+    @Value("${swagger.staging-server-url:https://staging-api.example.com}")
+    private String stagingServerUrl;
+
     @Bean
     public OpenAPI customOpenAPI() {
         final String securitySchemeName = "bearerAuth";
         return new OpenAPI()
-                // Información general de la API
                 .info(new Info()
-                        .title(getEnvOrDefault("SWAGGER_API_TITLE", "API Documentation"))
-                        .version(getEnvOrDefault("SWAGGER_API_VERSION", "1.0"))
-                        .description(getEnvOrDefault("SWAGGER_API_DESCRIPTION", "Documentación de la API de ejemplo"))
-                        .termsOfService(getEnvOrDefault("SWAGGER_TERMS_URL", "https://example.com/terms"))
+                        .title(apiTitle)
+                        .version(apiVersion)
+                        .description(apiDescription)
+                        .termsOfService(termsUrl)
                         .contact(new Contact()
-                                .name(getEnvOrDefault("SWAGGER_CONTACT_NAME", "Support Team"))
-                                .email(getEnvOrDefault("SWAGGER_CONTACT_EMAIL", "support@example.com"))
-                                .url(getEnvOrDefault("SWAGGER_CONTACT_URL", "https://example.com/contact")))
+                                .name(contactName)
+                                .email(contactEmail)
+                                .url(contactUrl))
                         .license(new License()
-                                .name(getEnvOrDefault("SWAGGER_LICENSE_NAME", "Apache 2.0"))
-                                .url(getEnvOrDefault("SWAGGER_LICENSE_URL", "https://www.apache.org/licenses/LICENSE-2.0.html")))
+                                .name(licenseName)
+                                .url(licenseUrl))
                 )
-                // Configuración de los servidores
                 .servers(List.of(
                         new Server()
-                                .url(getEnvOrDefault("SWAGGER_PRODUCTION_SERVER_URL", "https://api.example.com"))
+                                .url(productionServerUrl)
                                 .description("Production Server"),
                         new Server()
-                                .url(getEnvOrDefault("SWAGGER_STAGING_SERVER_URL", "https://staging-api.example.com"))
+                                .url(stagingServerUrl)
                                 .description("Staging Server")
                 ))
-                // --- Agrega el esquema de seguridad JWT ---
                 .addSecurityItem(new SecurityRequirement().addList(securitySchemeName))
                 .components(new Components()
                         .addSecuritySchemes(securitySchemeName,

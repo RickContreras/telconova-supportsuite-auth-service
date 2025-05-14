@@ -129,13 +129,6 @@
 			<version>2.8.6</version>
 		</dependency>
 
-		<!-- Carga de .env-->
-		<dependency>
-			<groupId>io.github.cdimascio</groupId>
-			<artifactId>dotenv-java</artifactId>
-			<version>3.0.0</version>
-		</dependency>
-
 		<!-- Test-->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>

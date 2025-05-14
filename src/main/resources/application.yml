@@ -39,3 +39,19 @@ graphql:
 jwt:
   secret: ${JWT_SECRET}
   expiration_ms: ${JWT_EXPIRATION_MS}
+
+swagger:
+  api:
+    title: API de Gestión de Usuarios
+    version: 1.0
+    description: API para la gestión de usuarios y autenticacion
+  terms-url: https://example.com/terms
+  contact:
+    name: Support Team
+    email: support@example.com
+    url: https://example.com/contact
+  license:
+    name: Apache 2.0
+    url: https://www.apache.org/licenses/LICENSE-2.0.html
+  production-server-url: ${SWAGGER_PRODUCTION_SERVER_URL}
+  staging-server-url: https://staging-api.example.com
