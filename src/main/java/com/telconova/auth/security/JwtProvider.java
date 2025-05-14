@@ -3,9 +3,11 @@ package com.telconova.auth.security;
 import com.telconova.auth.model.User;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.security.Keys;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
+import java.nio.charset.StandardCharsets;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -38,7 +40,7 @@ public class JwtProvider {
         if (user.getRoles() == null) {
             throw new IllegalArgumentException("Los roles del usuario no pueden ser nulos");
         }
-
+        
         Map<String, Object> claims = new HashMap<>();
         List<String> roles = user.getRoles().stream()
                 .map(r -> r.getName())
@@ -50,7 +52,10 @@ public class JwtProvider {
                 .setSubject(user.getUsername())
                 .setIssuedAt(new Date())
                 .setExpiration(new Date(System.currentTimeMillis() + jwtExpirationMs))
-                .signWith(SignatureAlgorithm.HS512, jwtSecret)
+                .signWith(
+                    Keys.hmacShaKeyFor(jwtSecret.getBytes(StandardCharsets.UTF_8)),
+                    SignatureAlgorithm.HS512
+                )
                 .compact();
     }
 }

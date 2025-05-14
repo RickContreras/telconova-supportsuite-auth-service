@@ -16,9 +16,6 @@ public class Role {
     @Column(length = 255)
     private String description;
 
-    @ManyToMany(mappedBy = "roles")
-    private Set<User> users;
-
     public Role() {
     }
     public Role(String name, String description) {
@@ -32,6 +29,4 @@ public class Role {
     public void setName(String name) { this.name = name; }
     public String getDescription() { return description; }
     public void setDescription(String description) { this.description = description; }
-    public Set<User> getUsers() { return users; }
-    public void setUsers(Set<User> users) { this.users = users; }
 }

@@ -5,6 +5,9 @@ import io.swagger.v3.oas.models.info.Contact;
 import io.swagger.v3.oas.models.info.Info;
 import io.swagger.v3.oas.models.info.License;
 import io.swagger.v3.oas.models.servers.Server;
+import io.swagger.v3.oas.models.security.SecurityRequirement;
+import io.swagger.v3.oas.models.security.SecurityScheme;
+import io.swagger.v3.oas.models.Components;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import java.util.List;
@@ -45,6 +48,7 @@ public class SwaggerConfig {
      */
     @Bean
     public OpenAPI customOpenAPI() {
+        final String securitySchemeName = "bearerAuth";
         return new OpenAPI()
                 // Información general de la API
                 .info(new Info()
@@ -68,6 +72,17 @@ public class SwaggerConfig {
                         new Server()
                                 .url(getEnvOrDefault("SWAGGER_STAGING_SERVER_URL", "https://staging-api.example.com"))
                                 .description("Staging Server")
-                ));
+                ))
+                // --- Agrega el esquema de seguridad JWT ---
+                .addSecurityItem(new SecurityRequirement().addList(securitySchemeName))
+                .components(new Components()
+                        .addSecuritySchemes(securitySchemeName,
+                                new SecurityScheme()
+                                        .name(securitySchemeName)
+                                        .type(SecurityScheme.Type.HTTP)
+                                        .scheme("bearer")
+                                        .bearerFormat("JWT")
+                        )
+                );
     }
 }

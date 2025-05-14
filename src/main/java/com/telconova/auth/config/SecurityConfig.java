@@ -29,19 +29,8 @@ public class SecurityConfig {
             .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
             .and()
             .cors().and()
-            .authorizeHttpRequests(authorize -> authorize
-                .requestMatchers(
-                    "/",
-                    "/hola",
-                    "/favicon.ico",
-                    "/api/v1/auth/**",
-                    "/swagger-ui/**",
-                    "/v3/api-docs",
-                    "/v3/api-docs/**",
-                    "/swagger-resources/**",
-                    "/swagger-ui.html",
-                    "/webjars/**"
-                ).permitAll()
+            .authorizeHttpRequests(auth -> auth
+                .requestMatchers("/api/v1/auth/**", "/swagger-ui/**", "/v3/api-docs/**").permitAll()
                 .anyRequest().authenticated()
             )
             .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
