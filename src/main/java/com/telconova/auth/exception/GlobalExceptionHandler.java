@@ -31,7 +31,9 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(DataAccessException.class)
     public ResponseEntity<String> handleDataAccess(DataAccessException ex) {
+        Throwable rootCause = ex.getRootCause();
+        String message = rootCause != null ? rootCause.getMessage() : ex.getMessage();
         return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                .body("Error de acceso a datos: " + ex.getRootCause().getMessage());
+                .body("Error de acceso a datos: " + message);
     }
 }

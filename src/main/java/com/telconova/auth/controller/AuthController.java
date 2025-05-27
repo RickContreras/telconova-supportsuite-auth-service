@@ -3,10 +3,8 @@ package com.telconova.auth.controller;
 import com.telconova.auth.service.AuthService;
 import com.telconova.auth.model.AuthRequest;
 import com.telconova.auth.model.AuthResponse;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.security.authentication.BadCredentialsException;
 
 @RestController
 @RequestMapping("/api/v1/auth")

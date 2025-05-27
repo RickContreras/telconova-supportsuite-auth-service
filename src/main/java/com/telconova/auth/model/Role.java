@@ -1,7 +1,6 @@
 package com.telconova.auth.model;
 
 import jakarta.persistence.*;
-import java.util.Set;
 
 @Entity
 @Table(name = "\"role\"", schema = "public")
