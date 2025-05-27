@@ -1,2 +1,65 @@
+# Define el comportamiento por defecto en caso de que personas tengan core.autocrlf sin configurar
+* text=auto
+
+# Archivos de texto específicos que siempre deben normalizarse y convertirse
+# a finales de línea nativos en checkout
+*.java text diff=java
+*.xml text diff=xml
+*.yml text
+*.yaml text
+*.properties text
+*.md text diff=markdown
+*.sql text
+*.sh text eol=lf
 /mvnw text eol=lf
 *.cmd text eol=crlf
+*.bat text eol=crlf
+*.html text diff=html
+*.css text diff=css
+*.js text
+*.json text
+*.config text
+
+# Docker
+Dockerfile text
+*.dockerfile text
+.dockerignore text
+docker-compose.yml text
+docker-compose.yaml text
+
+# Archivos que siempre tendrán LF (Unix)
+.gitignore text eol=lf
+.gitattributes text eol=lf
+gradlew text eol=lf
+
+# Configuración específica para Maven
+pom.xml text diff=xml eol=lf
+*.xml text diff=xml
+
+# Helm y Kubernetes
+*.yaml text
+*.yml text
+Chart.yaml text
+
+# Binarios (no modificar)
+*.jar binary
+*.war binary
+*.ear binary
+*.class binary
+*.dll binary
+*.exe binary
+*.so binary
+*.dylib binary
+*.zip binary
+*.tar binary
+*.gz binary
+*.rar binary
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.ico binary
+*.pdf binary
+
+# Linguist overrides para GitHub
+*.java linguist-language=Java
