@@ -478,6 +478,25 @@ mvn spring-boot:run
 ```
 ---
 
+#### Docker en devcontainer
+
+Construye la imagen de docker:
+
+```bash
+docker build -t telconova/ms-usuarios:latest .
+```
+
+Corre el contenedor con tus variables de entorno:
+```bash
+docker run -d --name ms-usuarios   --network=telconova-supportsuite-auth-service_devcontainer_devcontainer-network   -p 8080:${SERVER_PORT}   --env-file .env   telconova/ms-usuarios:latest
+```
+
+En caso de problemas algunos comandos utiles son:
+```bash
+docker logs ms-usuarios
+docker network ls
+```
+
 ## 🧪 Pruebas
 
 ```bash
