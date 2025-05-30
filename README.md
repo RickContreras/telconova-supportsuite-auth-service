@@ -497,6 +497,20 @@ docker logs ms-usuarios
 docker network ls
 ```
 
+### Docker Compose
+
+Lanzar los contenedores:
+
+```bash
+docker-compose up -d
+```
+
+Detener los contenedores:
+
+```bash
+docker-compose down
+```
+
 ## 🧪 Pruebas
 
 ```bash
