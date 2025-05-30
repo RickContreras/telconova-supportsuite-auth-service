@@ -240,7 +240,13 @@ query GetUserWithRoles {
   }
 }
 ```
+### Swagger
 
+Disponible en `/swagger-ui/index.html` o `/swagger-ui.html`
+
+### Actuator
+
+Disponible en `/actuator/health`
 ---
 
 ## ⚙️ Configuración
