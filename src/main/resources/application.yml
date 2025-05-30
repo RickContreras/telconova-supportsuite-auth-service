@@ -3,9 +3,9 @@ spring:
     name: telconova-support-backend
 
   datasource:
-    url: ${DATABASE_URL:jdbc:postgresql://localhost:5432/telconova}
-    username: ${DATABASE_USERNAME:postgres}
-    password: ${DATABASE_PASSWORD:root1}
+    url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://localhost:5432/telconova}
+    username: ${SPRING_DATASOURCE_USERNAME:postgres}
+    password: ${SPRING_DATASOURCE_PASSWORD:root1}
     driver-class-name: org.postgresql.Driver
 
   jpa:
@@ -42,3 +42,12 @@ jwt:
 
 swagger:
   production-server-url: ${SWAGGER_PRODUCTION_SERVER_URL}
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
+  endpoint:
+    health:
+      show-details: never
