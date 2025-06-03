@@ -3,6 +3,7 @@ databaseChangeLog:
       id: 6
       author: telconova
       changes:
+        # Roles básicos del sistema
         - insert:
             tableName: role
             columns:
@@ -11,7 +12,7 @@ databaseChangeLog:
                   value: ADMIN
               - column:
                   name: description
-                  value: Administrador del sistema
+                  value: Administrador del sistema con acceso total
         - insert:
             tableName: role
             columns:
@@ -20,7 +21,7 @@ databaseChangeLog:
                   value: TECNICO
               - column:
                   name: description
-                  value: Técnico de soporte
+                  value: Personal técnico que atiende órdenes de trabajo
         - insert:
             tableName: role
             columns:
@@ -29,8 +30,9 @@ databaseChangeLog:
                   value: CLIENTE
               - column:
                   name: description
-                  value: Usuario cliente
+                  value: Cliente que solicita servicios técnicos
 
+        # Permisos de usuarios
         - insert:
             tableName: permission
             columns:
@@ -39,7 +41,7 @@ databaseChangeLog:
                   value: USUARIO_READ
               - column:
                   name: description
-                  value: Permite leer usuarios
+                  value: Ver información de usuarios
         - insert:
             tableName: permission
             columns:
@@ -48,7 +50,7 @@ databaseChangeLog:
                   value: USUARIO_WRITE
               - column:
                   name: description
-                  value: Permite crear/editar usuarios
+                  value: Crear y modificar usuarios
         - insert:
             tableName: permission
             columns:
@@ -57,10 +59,420 @@ databaseChangeLog:
                   value: USUARIO_DELETE
               - column:
                   name: description
-                  value: Permite eliminar usuarios
+                  value: Eliminar usuarios
+        - insert:
+            tableName: permission
+            columns:
+              - column:
+                  name: name
+                  value: USUARIO_SELF_EDIT
+              - column:
+                  name: description
+                  value: Modificar información de perfil propio
 
+        # Permisos de órdenes de trabajo
+        - insert:
+            tableName: permission
+            columns:
+              - column:
+                  name: name
+                  value: ORDEN_CREATE
+              - column:
+                  name: description
+                  value: Crear nuevas órdenes de trabajo
+        - insert:
+            tableName: permission
+            columns:
+              - column:
+                  name: name
+                  value: ORDEN_READ_ALL
+              - column:
+                  name: description
+                  value: Ver todas las órdenes de trabajo
+        - insert:
+            tableName: permission
+            columns:
+              - column:
+                  name: name
+                  value: ORDEN_READ_OWN
+              - column:
+                  name: description
+                  value: Ver órdenes de trabajo propias
+        - insert:
+            tableName: permission
+            columns:
+              - column:
+                  name: name
+                  value: ORDEN_UPDATE
+              - column:
+                  name: description
+                  value: Modificar órdenes de trabajo
+        - insert:
+            tableName: permission
+            columns:
+              - column:
+                  name: name
+                  value: ORDEN_ASSIGN
+              - column:
+                  name: description
+                  value: Asignar técnicos a órdenes de trabajo
+        - insert:
+            tableName: permission
+            columns:
+              - column:
+                  name: name
+                  value: ORDEN_UPDATE_STATUS
+              - column:
+                  name: description
+                  value: Actualizar estado de órdenes de trabajo
+        - insert:
+            tableName: permission
+            columns:
+              - column:
+                  name: name
+                  value: ORDEN_DELETE
+              - column:
+                  name: description
+                  value: Eliminar órdenes de trabajo
+
+        # Permisos de evidencias y materiales
+        - insert:
+            tableName: permission
+            columns:
+              - column:
+                  name: name
+                  value: EVIDENCIA_UPLOAD
+              - column:
+                  name: description
+                  value: Subir evidencias fotográficas o documentos
+        - insert:
+            tableName: permission
+            columns:
+              - column:
+                  name: name
+                  value: EVIDENCIA_VIEW_ALL
+              - column:
+                  name: description
+                  value: Ver todas las evidencias subidas
+        - insert:
+            tableName: permission
+            columns:
+              - column:
+                  name: name
+                  value: EVIDENCIA_VIEW_OWN
+              - column:
+                  name: description
+                  value: Ver evidencias de órdenes propias
+        - insert:
+            tableName: permission
+            columns:
+              - column:
+                  name: name
+                  value: MATERIAL_UPDATE
+              - column:
+                  name: description
+                  value: Modificar materiales asignados a una orden
+
+        # Permisos de comentarios/avances
+        - insert:
+            tableName: permission
+            columns:
+              - column:
+                  name: name
+                  value: COMENTARIO_CREATE
+              - column:
+                  name: description
+                  value: Crear comentarios en órdenes de trabajo
+        - insert:
+            tableName: permission
+            columns:
+              - column:
+                  name: name
+                  value: COMENTARIO_VIEW_ALL
+              - column:
+                  name: description
+                  value: Ver todos los comentarios
+        - insert:
+            tableName: permission
+            columns:
+              - column:
+                  name: name
+                  value: COMENTARIO_VIEW_OWN
+              - column:
+                  name: description
+                  value: Ver comentarios en órdenes propias
+
+  # Asignación de permisos a roles
   - changeSet:
       id: 7
+      author: telconova
+      changes:
+        # Permisos para rol ADMIN
+        - insert:
+            tableName: permission_role
+            columns:
+              - column:
+                  name: role_id
+                  valueNumeric: 1 # ADMIN
+              - column:
+                  name: permission_id
+                  valueNumeric: 1 # USUARIO_READ
+        - insert:
+            tableName: permission_role
+            columns:
+              - column:
+                  name: role_id
+                  valueNumeric: 1 # ADMIN
+              - column:
+                  name: permission_id
+                  valueNumeric: 2 # USUARIO_WRITE
+        - insert:
+            tableName: permission_role
+            columns:
+              - column:
+                  name: role_id
+                  valueNumeric: 1 # ADMIN
+              - column:
+                  name: permission_id
+                  valueNumeric: 3 # USUARIO_DELETE
+        - insert:
+            tableName: permission_role
+            columns:
+              - column:
+                  name: role_id
+                  valueNumeric: 1 # ADMIN
+              - column:
+                  name: permission_id
+                  valueNumeric: 4 # USUARIO_SELF_EDIT
+        - insert:
+            tableName: permission_role
+            columns:
+              - column:
+                  name: role_id
+                  valueNumeric: 1 # ADMIN
+              - column:
+                  name: permission_id
+                  valueNumeric: 5 # ORDEN_CREATE
+        - insert:
+            tableName: permission_role
+            columns:
+              - column:
+                  name: role_id
+                  valueNumeric: 1 # ADMIN
+              - column:
+                  name: permission_id
+                  valueNumeric: 6 # ORDEN_READ_ALL
+        - insert:
+            tableName: permission_role
+            columns:
+              - column:
+                  name: role_id
+                  valueNumeric: 1 # ADMIN
+              - column:
+                  name: permission_id
+                  valueNumeric: 8 # ORDEN_UPDATE
+        - insert:
+            tableName: permission_role
+            columns:
+              - column:
+                  name: role_id
+                  valueNumeric: 1 # ADMIN
+              - column:
+                  name: permission_id
+                  valueNumeric: 9 # ORDEN_ASSIGN
+        - insert:
+            tableName: permission_role
+            columns:
+              - column:
+                  name: role_id
+                  valueNumeric: 1 # ADMIN
+              - column:
+                  name: permission_id
+                  valueNumeric: 10 # ORDEN_UPDATE_STATUS
+        - insert:
+            tableName: permission_role
+            columns:
+              - column:
+                  name: role_id
+                  valueNumeric: 1 # ADMIN
+              - column:
+                  name: permission_id
+                  valueNumeric: 11 # ORDEN_DELETE
+        - insert:
+            tableName: permission_role
+            columns:
+              - column:
+                  name: role_id
+                  valueNumeric: 1 # ADMIN
+              - column:
+                  name: permission_id
+                  valueNumeric: 12 # EVIDENCIA_UPLOAD
+        - insert:
+            tableName: permission_role
+            columns:
+              - column:
+                  name: role_id
+                  valueNumeric: 1 # ADMIN
+              - column:
+                  name: permission_id
+                  valueNumeric: 13 # EVIDENCIA_VIEW_ALL
+        - insert:
+            tableName: permission_role
+            columns:
+              - column:
+                  name: role_id
+                  valueNumeric: 1 # ADMIN
+              - column:
+                  name: permission_id
+                  valueNumeric: 15 # MATERIAL_UPDATE
+        - insert:
+            tableName: permission_role
+            columns:
+              - column:
+                  name: role_id
+                  valueNumeric: 1 # ADMIN
+              - column:
+                  name: permission_id
+                  valueNumeric: 16 # COMENTARIO_CREATE
+        - insert:
+            tableName: permission_role
+            columns:
+              - column:
+                  name: role_id
+                  valueNumeric: 1 # ADMIN
+              - column:
+                  name: permission_id
+                  valueNumeric: 17 # COMENTARIO_VIEW_ALL
+        # Permisos para rol TECNICO
+        - insert:
+            tableName: permission_role
+            columns:
+              - column:
+                  name: role_id
+                  valueNumeric: 2 # TECNICO
+              - column:
+                  name: permission_id
+                  valueNumeric: 4 # USUARIO_SELF_EDIT
+        - insert:
+            tableName: permission_role
+            columns:
+              - column:
+                  name: role_id
+                  valueNumeric: 2 # TECNICO
+              - column:
+                  name: permission_id
+                  valueNumeric: 6 # ORDEN_READ_ALL
+        - insert:
+            tableName: permission_role
+            columns:
+              - column:
+                  name: role_id
+                  valueNumeric: 2 # TECNICO
+              - column:
+                  name: permission_id
+                  valueNumeric: 10 # ORDEN_UPDATE_STATUS
+        - insert:
+            tableName: permission_role
+            columns:
+              - column:
+                  name: role_id
+                  valueNumeric: 2 # TECNICO
+              - column:
+                  name: permission_id
+                  valueNumeric: 12 # EVIDENCIA_UPLOAD
+        - insert:
+            tableName: permission_role
+            columns:
+              - column:
+                  name: role_id
+                  valueNumeric: 2 # TECNICO
+              - column:
+                  name: permission_id
+                  valueNumeric: 13 # EVIDENCIA_VIEW_ALL
+        - insert:
+            tableName: permission_role
+            columns:
+              - column:
+                  name: role_id
+                  valueNumeric: 2 # TECNICO
+              - column:
+                  name: permission_id
+                  valueNumeric: 15 # MATERIAL_UPDATE
+        - insert:
+            tableName: permission_role
+            columns:
+              - column:
+                  name: role_id
+                  valueNumeric: 2 # TECNICO
+              - column:
+                  name: permission_id
+                  valueNumeric: 16 # COMENTARIO_CREATE
+        - insert:
+            tableName: permission_role
+            columns:
+              - column:
+                  name: role_id
+                  valueNumeric: 2 # TECNICO
+              - column:
+                  name: permission_id
+                  valueNumeric: 17 # COMENTARIO_VIEW_ALL
+        # Permisos para rol CLIENTE
+        - insert:
+            tableName: permission_role
+            columns:
+              - column:
+                  name: role_id
+                  valueNumeric: 3 # CLIENTE
+              - column:
+                  name: permission_id
+                  valueNumeric: 4 # USUARIO_SELF_EDIT
+        - insert:
+            tableName: permission_role
+            columns:
+              - column:
+                  name: role_id
+                  valueNumeric: 3 # CLIENTE
+              - column:
+                  name: permission_id
+                  valueNumeric: 5 # ORDEN_CREATE
+        - insert:
+            tableName: permission_role
+            columns:
+              - column:
+                  name: role_id
+                  valueNumeric: 3 # CLIENTE
+              - column:
+                  name: permission_id
+                  valueNumeric: 7 # ORDEN_READ_OWN
+        - insert:
+            tableName: permission_role
+            columns:
+              - column:
+                  name: role_id
+                  valueNumeric: 3 # CLIENTE
+              - column:
+                  name: permission_id
+                  valueNumeric: 14 # EVIDENCIA_VIEW_OWN
+        - insert:
+            tableName: permission_role
+            columns:
+              - column:
+                  name: role_id
+                  valueNumeric: 3 # CLIENTE
+              - column:
+                  name: permission_id
+                  valueNumeric: 16 # COMENTARIO_CREATE
+        - insert:
+            tableName: permission_role
+            columns:
+              - column:
+                  name: role_id
+                  valueNumeric: 3 # CLIENTE
+              - column:
+                  name: permission_id
+                  valueNumeric: 18 # COMENTARIO_VIEW_OWN
+  - changeSet:
+      id: 8
       author: telconova
       changes:
         - insert:
@@ -77,51 +489,237 @@ databaseChangeLog:
                   value: $2b$12$.L/EOguFwoM.6yBJX/iX2eSSje9xPCmUfJ/LJeaUZQeytq6o0RauS
               - column:
                   name: name
-                  value: Administrador
+                  value: Carlos Administrador
+              - column:
+                  name: phone
+                  value: "3001234567"
+              - column:
+                  name: registration_date
+                  valueDate: "2023-01-15 08:00:00"
               - column:
                   name: active
                   valueBoolean: true
-
+              - column:
+                  name: last_login
+                  valueDate: "2023-11-12 10:23:15"
         - insert:
             tableName: user
             columns:
               - column:
                   name: username
-                  value: tecnico
+                  value: jrodriguez
               - column:
                   name: email
-                  value: tecnico@telconova.com
+                  value: juan.rodriguez@telconova.com
               - column:
                   name: password
                   value: $2b$12$SnH06Bwgsyq8xp4TISqHfejh/MHJpPgYUTXahVO7a12sEQeZvGpmW
               - column:
                   name: name
-                  value: Tecnico
+                  value: Juan Rodríguez
+              - column:
+                  name: phone
+                  value: "3109876543"
+              - column:
+                  name: registration_date
+                  valueDate: "2023-03-10 14:30:00"
               - column:
                   name: active
                   valueBoolean: true
-
+              - column:
+                  name: last_login
+                  valueDate: "2023-11-11 08:15:30"
         - insert:
             tableName: user
             columns:
               - column:
                   name: username
-                  value: cliente
+                  value: empresa_abc
               - column:
                   name: email
-                  value: cliente@telconova.com
+                  value: soporte@empresa-abc.com
               - column:
                   name: password
                   value: $2b$12$6gZNaJ1Ual0xDdBKM.fyVuZbSr39NwULz/DdT/zp1t9I6mp3DZ8G2
               - column:
                   name: name
-                  value: Cliente
+                  value: Empresa ABC S.A.S
+              - column:
+                  name: phone
+                  value: "6018765432"
+              - column:
+                  name: registration_date
+                  valueDate: "2023-01-20 11:30:00"
               - column:
                   name: active
                   valueBoolean: true
-
+              - column:
+                  name: last_login
+                  valueDate: "2023-11-10 14:25:00"
+        - insert:
+            tableName: user
+            columns:
+              - column:
+                  name: username
+                  value: lgomez
+              - column:
+                  name: email
+                  value: laura.gomez@telconova.com
+              - column:
+                  name: password
+                  value: $2b$12$SnH06Bwgsyq8xp4TISqHfejh/MHJpPgYUTXahVO7a12sEQeZvGpmW
+              - column:
+                  name: name
+                  value: Laura Gómez
+              - column:
+                  name: phone
+                  value: "3167654321"
+              - column:
+                  name: registration_date
+                  valueDate: "2023-02-15 10:45:00"
+              - column:
+                  name: active
+                  valueBoolean: true
+              - column:
+                  name: last_login
+                  valueDate: "2023-11-15 07:30:00"
+        - insert:
+            tableName: user
+            columns:
+              - column:
+                  name: username
+                  value: marialvarez
+              - column:
+                  name: email
+                  value: maria.alvarez@telconova.com
+              - column:
+                  name: password
+                  value: $2b$12$.L/EOguFwoM.6yBJX/iX2eSSje9xPCmUfJ/LJeaUZQeytq6o0RauS
+              - column:
+                  name: name
+                  value: María Álvarez
+              - column:
+                  name: phone
+                  value: "3002345678"
+              - column:
+                  name: registration_date
+                  valueDate: "2023-02-01 09:15:00"
+              - column:
+                  name: active
+                  valueBoolean: true
+              - column:
+                  name: last_login
+                  valueDate: "2023-11-14 16:45:22"
+        - insert:
+            tableName: user
+            columns:
+              - column:
+                  name: username
+                  value: comercial_xyz
+              - column:
+                  name: email
+                  value: it@comercialxyz.co
+              - column:
+                  name: password
+                  value: $2b$12$6gZNaJ1Ual0xDdBKM.fyVuZbSr39NwULz/DdT/zp1t9I6mp3DZ8G2
+              - column:
+                  name: name
+                  value: Comercial XYZ Ltda
+              - column:
+                  name: phone
+                  value: "6024563211"
+              - column:
+                  name: registration_date
+                  valueDate: "2023-02-25 15:45:00"
+              - column:
+                  name: active
+                  valueBoolean: true
+              - column:
+                  name: last_login
+                  valueDate: "2023-11-12 09:15:00"
+        - insert:
+            tableName: user
+            columns:
+              - column:
+                  name: username
+                  value: pmartinez
+              - column:
+                  name: email
+                  value: pedro.martinez@telconova.com
+              - column:
+                  name: password
+                  value: $2b$12$SnH06Bwgsyq8xp4TISqHfejh/MHJpPgYUTXahVO7a12sEQeZvGpmW
+              - column:
+                  name: name
+                  value: Pedro Martínez
+              - column:
+                  name: phone
+                  value: "3138765432"
+              - column:
+                  name: registration_date
+                  valueDate: "2023-04-05 09:00:00"
+              - column:
+                  name: active
+                  valueBoolean: true
+              - column:
+                  name: last_login
+                  valueDate: "2023-11-13 16:45:00"
+        - insert:
+            tableName: user
+            columns:
+              - column:
+                  name: username
+                  value: textiles_del_valle
+              - column:
+                  name: email
+                  value: sistemas@textilesdelvalle.com
+              - column:
+                  name: password
+                  value: $2b$12$6gZNaJ1Ual0xDdBKM.fyVuZbSr39NwULz/DdT/zp1t9I6mp3DZ8G2
+              - column:
+                  name: name
+                  value: Textiles del Valle S.A.
+              - column:
+                  name: phone
+                  value: "6053214567"
+              - column:
+                  name: registration_date
+                  valueDate: "2023-03-15 10:30:00"
+              - column:
+                  name: active
+                  valueBoolean: true
+              - column:
+                  name: last_login
+                  valueDate: "2023-11-14 11:45:00"
+        - insert:
+            tableName: user
+            columns:
+              - column:
+                  name: username
+                  value: supermercados_rapidos
+              - column:
+                  name: email
+                  value: soporte@super-rapidos.com.co
+              - column:
+                  name: password
+                  value: $2b$12$6gZNaJ1Ual0xDdBKM.fyVuZbSr39NwULz/DdT/zp1t9I6mp3DZ8G2
+              - column:
+                  name: name
+                  value: Supermercados Rápidos S.A.
+              - column:
+                  name: phone
+                  value: "6017654321"
+              - column:
+                  name: registration_date
+                  valueDate: "2023-04-10 16:00:00"
+              - column:
+                  name: active
+                  valueBoolean: true
+              - column:
+                  name: last_login
+                  valueDate: "2023-11-15 13:30:00"
   - changeSet:
-      id: 8
+      id: 9
       author: telconova
       changes:
         - insert:
@@ -138,7 +736,7 @@ databaseChangeLog:
             columns:
               - column:
                   name: user_id
-                  valueNumeric: 2 # tecnico
+                  valueNumeric: 2 # jrodriguez
               - column:
                   name: role_id
                   valueNumeric: 2 # TECNICO
@@ -147,7 +745,61 @@ databaseChangeLog:
             columns:
               - column:
                   name: user_id
-                  valueNumeric: 3 # cliente
+                  valueNumeric: 3 # empresa_abc
+              - column:
+                  name: role_id
+                  valueNumeric: 3 # CLIENTE
+        - insert:
+            tableName: user_roles
+            columns:
+              - column:
+                  name: user_id
+                  valueNumeric: 4 # lgomez
+              - column:
+                  name: role_id
+                  valueNumeric: 2 # TECNICO
+        - insert:
+            tableName: user_roles
+            columns:
+              - column:
+                  name: user_id
+                  valueNumeric: 5 # marialvarez
+              - column:
+                  name: role_id
+                  valueNumeric: 1 #  ADMIN
+        - insert:
+            tableName: user_roles
+            columns:
+              - column:
+                  name: user_id
+                  valueNumeric: 6 # comercial_xyz
+              - column:
+                  name: role_id
+                  valueNumeric: 3 # CLIENTE
+        - insert:
+            tableName: user_roles
+            columns:
+              - column:
+                  name: user_id
+                  valueNumeric: 7 # pmartinez
+              - column:
+                  name: role_id
+                  valueNumeric: 2 # TECNICO
+        - insert:
+            tableName: user_roles
+            columns:
+              - column:
+                  name: user_id
+                  valueNumeric: 8 # textiles_del_valle
+              - column:
+                  name: role_id
+                  valueNumeric: 3 # CLIENTE
+        - insert:
+            tableName: user_roles
+            columns:
+              - column:
+                  name: user_id
+                  valueNumeric: 9 # supermercados_rapidos
               - column:
                   name: role_id
                   valueNumeric: 3 # CLIENTE
