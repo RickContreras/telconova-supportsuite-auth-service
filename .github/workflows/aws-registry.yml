@@ -34,15 +34,15 @@ jobs:
 
     - name: Build Docker image
       run: |
-        docker build -t public.ecr.aws/a2c8l1h5/auth-service:${{ github.sha }} .
-        docker tag public.ecr.aws/a2c8l1h5/auth-service:${{ github.sha }} public.ecr.aws/a2c8l1h5/auth-service:latest
+        docker build -t public.ecr.aws/a2c8l1h5/auth-service-so:${{ github.sha }} .
+        docker tag public.ecr.aws/a2c8l1h5/auth-service-so:${{ github.sha }} public.ecr.aws/a2c8l1h5/auth-service-so:latest
 
     - name: Push Docker image
       run: |
-        docker push public.ecr.aws/a2c8l1h5/auth-service:${{ github.sha }}
-        docker push public.ecr.aws/a2c8l1h5/auth-service:latest
+        docker push public.ecr.aws/a2c8l1h5/auth-service-so:${{ github.sha }}
+        docker push public.ecr.aws/a2c8l1h5/auth-service-so:latest
 
     - name: Output image details
       run: |
-        echo "Image pushed: public.ecr.aws/a2c8l1h5/auth-service:${{ github.sha }}"
-        echo "Image pushed: public.ecr.aws/a2c8l1h5/auth-service:latest"
+        echo "Image pushed: public.ecr.aws/a2c8l1h5/auth-service-so:${{ github.sha }}"
+        echo "Image pushed: public.ecr.aws/a2c8l1h5/auth-service-so:latest"
