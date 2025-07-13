@@ -35,7 +35,7 @@ jobs:
     - name: Build Docker image
       run: |
         docker build -t public.ecr.aws/a2c8l1h5/so-trabajo-final:${{ github.sha }} .
-        docker tag public.ecr.aws/a2c8l1h5/so-trabajo-final:${{ github.sha }} public.ecr.aws/a2c8l1h5/so-trabajo-final:latest
+        docker tag public.ecr.aws/a2c8l1h5/telconova-auth-service:${{ github.sha }} public.ecr.aws/a2c8l1h5/telconova-auth-service:latest
 
     - name: Push Docker image
       run: |
