@@ -40,8 +40,9 @@ public class SecurityConfig {
                 })
             )
             .authorizeHttpRequests(auth -> auth
-                .requestMatchers("/api/v1/auth/**", "/swagger-ui/**","/swagger-ui.html", "/v3/api-docs/**").permitAll()
-                .requestMatchers("/actuator/health", "/actuator/health/**").permitAll()
+                .requestMatchers("/actuator/health","/actuator/health/liveness","/actuator/health/readiness").permitAll()
+                .requestMatchers("/","/api/v1/auth/**", "/swagger-ui/**", "/swagger-ui.html", "/api-docs/**","/v3/api-docs/**").permitAll()
+                .requestMatchers("/actuator/**").permitAll()
                 .anyRequest().authenticated()
             )
             .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);

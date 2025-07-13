@@ -8,7 +8,6 @@
 ![Status](https://img.shields.io/badge/Status-En%20Desarrollo-yellow)
 ![License](https://img.shields.io/badge/License-Apache%202.0-blue)
 ![Docker](https://img.shields.io/badge/Docker-Ready-blue)
-![GraphQL](https://img.shields.io/badge/GraphQL-Apollo-ff69b4)
 
 ---
 
