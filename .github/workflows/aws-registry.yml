@@ -1,0 +1,79 @@
+name: Build and Push to ECR
+
+on:
+  push:
+    branches: [ main, develop, featere/aws-registry ]
+    tags: [ 'v*' ]
+  pull_request:
+    branches: [ main ]
+  workflow_dispatch:
+
+env:
+  AWS_REGION: ${{ secrets.AWS_REGION }}
+  ECR_REGISTRY: ${{ secrets.ECR_REGISTRY }}
+  ECR_REPOSITORY: ${{ secrets.ECR_REPOSITORY }}
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Set up JDK 21
+      uses: actions/setup-java@v4
+      with:
+        java-version: '21'
+        distribution: 'temurin'
+
+    - name: Cache Maven dependencies
+      uses: actions/cache@v3
+      with:
+        path: ~/.m2
+        key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
+
+    - name: Run tests
+      run: ./mvnw clean test
+
+  build-and-push:
+    needs: test
+    runs-on: ubuntu-latest
+    if: github.event_name == 'push' && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/develop')
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Configure AWS credentials
+      uses: aws-actions/configure-aws-credentials@v4
+      with:
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-region: ${{ env.AWS_REGION }}
+
+    - name: Login to Amazon ECR
+      id: login-ecr
+      uses: aws-actions/amazon-ecr-login@v2
+
+    - name: Extract metadata
+      id: meta
+      uses: docker/metadata-action@v5
+      with:
+        images: ${{ env.ECR_REGISTRY }}/${{ env.ECR_REPOSITORY }}
+        tags: |
+          type=ref,event=branch
+          type=raw,value=latest,enable={{is_default_branch}}
+          type=sha,prefix={{branch}}-
+
+    - name: Build and push Docker image
+      uses: docker/build-push-action@v5
+      with:
+        context: .
+        push: true
+        tags: ${{ steps.meta.outputs.tags }}
+        labels: ${{ steps.meta.outputs.labels }}
+
+    - name: Output image details
+      run: |
+        echo "Image pushed: ${{ steps.meta.outputs.tags }}"
+        echo "Image digest: ${{ steps.build.outputs.digest }}"
