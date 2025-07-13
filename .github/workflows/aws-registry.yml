@@ -14,10 +14,9 @@ env:
   ECR_REPOSITORY: ${{ secrets.ECR_REPOSITORY }}
 
 jobs:
-
   build-and-push:
     runs-on: ubuntu-latest
-
+    
     steps:
     - name: Checkout code
       uses: actions/checkout@v4
@@ -27,31 +26,23 @@ jobs:
       with:
         aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        aws-region: ${{ env.AWS_REGION }}
+        aws-region: us-east-1
 
-    - name: Login to Amazon ECR
-      id: login-ecr
-      uses: aws-actions/amazon-ecr-login@v2
+    - name: Login to Amazon ECR Public
+      run: |
+        aws ecr-public get-login-password --region us-east-1 | docker login --username AWS --password-stdin public.ecr.aws/a2c8l1h5
 
-    - name: Extract metadata
-      id: meta
-      uses: docker/metadata-action@v5
-      with:
-        images: ${{ env.ECR_REGISTRY }}/${{ env.ECR_REPOSITORY }}
-        tags: |
-          type=ref,event=branch
-          type=raw,value=latest,enable={{is_default_branch}}
-          type=sha,prefix={{branch}}-
+    - name: Build Docker image
+      run: |
+        docker build -t public.ecr.aws/a2c8l1h5/so-trabajo-final:${{ github.sha }} .
+        docker tag public.ecr.aws/a2c8l1h5/so-trabajo-final:${{ github.sha }} public.ecr.aws/a2c8l1h5/so-trabajo-final:latest
 
-    - name: Build and push Docker image
-      uses: docker/build-push-action@v5
-      with:
-        context: .
-        push: true
-        tags: ${{ steps.meta.outputs.tags }}
-        labels: ${{ steps.meta.outputs.labels }}
+    - name: Push Docker image
+      run: |
+        docker push public.ecr.aws/a2c8l1h5/so-trabajo-final:${{ github.sha }}
+        docker push public.ecr.aws/a2c8l1h5/so-trabajo-final:latest
 
     - name: Output image details
       run: |
-        echo "Image pushed: ${{ steps.meta.outputs.tags }}"
-        echo "Image digest: ${{ steps.build.outputs.digest }}"
+        echo "Image pushed: public.ecr.aws/a2c8l1h5/so-trabajo-final:${{ github.sha }}"
+        echo "Image pushed: public.ecr.aws/a2c8l1h5/so-trabajo-final:latest"
