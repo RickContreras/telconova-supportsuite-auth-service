@@ -69,14 +69,14 @@ public class SwaggerConfig {
                                 .name(licenseName)
                                 .url(licenseUrl))
                 )
-                .servers(List.of(
-                        new Server()
-                                .url(productionServerUrl)
-                                .description("Production Server"),
-                        new Server()
-                                .url(stagingServerUrl)
-                                .description("Staging Server")
-                ))
+                //.servers(List.of(
+                //        new Server()
+                //                .url(productionServerUrl)
+                //                .description("Production Server"),
+                //        new Server()
+                //                .url(stagingServerUrl)
+                //                .description("Staging Server")
+                //))
                 .addSecurityItem(new SecurityRequirement().addList(securitySchemeName))
                 .components(new Components()
                         .addSecuritySchemes(securitySchemeName,
